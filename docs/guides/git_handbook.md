@@ -1,4 +1,3 @@
-````md
 # Git Handbook
 
 ## Purpose
@@ -96,7 +95,7 @@ All commits MUST follow conventional commit standards.
 
 ```bash
 type(scope): short description
-````
+```
 
 ---
 
@@ -474,6 +473,3 @@ The goal is:
 5. Never silently fix unrelated issues
 6. Prefer clarity over cleverness
 7. Protect project stability first
-
-```
-```
