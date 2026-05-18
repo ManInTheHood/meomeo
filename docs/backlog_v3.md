@@ -42,6 +42,9 @@ TinderMeoMeo (TIM) là hệ thống backend/API phục vụ người dùng qua A
 - `repo:monorepo` - toàn bộ source code, infra và app nằm trong một repository duy nhất.
 - `env:localstack` - ticket liên quan đến môi trường dev/local dùng LocalStack.
 - `infra:cost-optimized` - hạ tầng MVP/dev ưu tiên giảm chi phí, không triển khai 3 HA/AZ.
+- `phase:1` - ticket thuộc Phase 1: Core MVP.
+- `phase:2` - ticket thuộc Phase 2: Enhanced Features.
+- `phase:3` - ticket thuộc Phase 3: Optional / Fast-follow.
 
 **Story Points Scale:**  
 | Points | Complexity | Reference |
@@ -55,6 +58,73 @@ TinderMeoMeo (TIM) là hệ thống backend/API phục vụ người dùng qua A
 
 ---
 
+## Linear Management Practice
+
+Backlog này dùng **Epic** làm cấp quản lý chính trong Linear. Vì vậy, trong Linear, **Milestone nên map với Epic**, không dùng Milestone để đại diện cho Cycle/Phase.
+
+### Linear Field Mapping
+
+| Backlog Field | Linear Field | Usage |
+|---|---|---|
+| Epic | Milestone | Mỗi Epic trong backlog tương ứng với một Linear Milestone. |
+| Phase | Status + label | Phase không tạo Milestone riêng; dùng status để đưa ticket vào phase đang làm, và label `phase:1`, `phase:2`, `phase:3` để lọc. |
+| Priority | Priority | P0/P1/P2 map sang priority tương ứng trong Linear. |
+| Story Points | Estimate | Dùng estimate theo scale 1, 2, 3, 5, 8, 13. |
+| Blocked By | Relations | Dùng relation `blocked by` / `blocking`. |
+| Labels | Labels | Dùng labels như `epic:*`, `release:mvp-v1`, `repo:monorepo`, `env:localstack`, `infra:cost-optimized`, `phase:*`. |
+
+### Milestone Strategy
+
+Linear Milestones cần tạo theo Epic:
+
+- Authentication & User Access
+- API Core & Backend Service
+- Infrastructure, Compute & Scaling
+- Data Storage & File Delivery
+- Async Processing & Notifications
+- CI/CD, Release & Observability
+
+Không tạo Milestone kiểu `Phase 1`, `Phase 2`, `Sprint 1`, `Cycle 1` cho backlog này. Phase được quản lý bằng ticket status và label.
+
+### Phase / Cycle Management via Status
+
+Mặc định, tất cả ticket mới nằm ở status `Backlog`.
+
+Khi team bắt đầu một phase, move tất cả ticket thuộc phase đó sang `Planned`. Ví dụ khi bắt đầu Phase 1:
+
+- Tất cả ticket có `Phase: 1` được chuyển từ `Backlog` sang `Planned`.
+- Ticket Phase 2 và Phase 3 vẫn giữ ở `Backlog`.
+- Khi ticket bắt đầu làm, chuyển từ `Planned` sang `In Progress`.
+- Khi hoàn thành implementation, chuyển sang `In Review` hoặc `QA`.
+- Khi xong hoàn toàn, chuyển sang `Done`.
+- Nếu bị phụ thuộc hoặc chưa thể xử lý, chuyển sang `Blocked`.
+
+### Recommended Linear Status Flow
+
+| Status | Meaning |
+|---|---|
+| Backlog | Ticket chưa thuộc phase đang làm hoặc chưa được lên kế hoạch gần. |
+| Planned | Ticket thuộc phase hiện tại và đã sẵn sàng để team pick up. |
+| In Progress | Ticket đang được implement/design. |
+| In Review | Ticket đang review code/design hoặc chờ QA. |
+| Blocked | Ticket bị chặn bởi dependency, quyết định kỹ thuật, credential, infra hoặc external service. |
+| Done | Ticket đã hoàn tất theo acceptance criteria. |
+
+### Example
+
+Khi bắt đầu Phase 1, các ticket như `TIM-AUTH-001`, `TIM-API-001`, `TIM-INFRA-005`, `TIM-STOR-001`, `TIM-CICD-001` sẽ được chuyển sang:
+
+- Milestone: theo Epic tương ứng.
+- Status: `Planned`.
+- Label: `phase:1`.
+- Priority: theo P0/P1/P2.
+- Estimate: theo Story Points.
+- Relations: set `Blocked By` nếu có.
+
+Cách này giúp Linear dashboard ưu tiên hiển thị ticket của phase hiện tại, trong khi vẫn giữ Epic/Milestone rõ ràng theo backlog.
+
+---
+
 # Epic 1: Authentication & User Access
 
 **Epic Description:** Thiết lập luồng đăng ký/đăng nhập, xác thực token, phân quyền truy cập API, và liên kết user identity với dữ liệu trong hệ thống.  
@@ -65,7 +135,7 @@ TinderMeoMeo (TIM) là hệ thống backend/API phục vụ người dùng qua A
 ## TIM-AUTH-001: Configure Cognito User Pool and App Client
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:auth`, `release:mvp-v1`<br>
+**Labels:** `epic:auth`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** -
 
 ### Description
@@ -95,7 +165,7 @@ Thiết lập Amazon Cognito để hỗ trợ đăng ký, đăng nhập, refresh
 ## TIM-AUTH-002: Integrate API Gateway Cognito Authorizer
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:auth`, `release:mvp-v1`<br>
+**Labels:** `epic:auth`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-AUTH-001
 
 ### Description
@@ -119,7 +189,7 @@ Bảo vệ các API cần đăng nhập bằng Cognito authorizer tại API Gate
 ## TIM-AUTH-003: Implement Backend User Context Middleware
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 3<br>
-**Labels:** `epic:auth`, `release:mvp-v1`<br>
+**Labels:** `epic:auth`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-AUTH-002
 
 ### Description
@@ -150,7 +220,7 @@ Xây middleware backend để parse user identity từ request đã xác thực 
 ## TIM-API-001: Define API Contract for MVP
 
 **Type:** Design | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:api-core`, `release:mvp-v1`<br>
+**Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** -
 
 ### Description
@@ -179,7 +249,7 @@ Chốt API contract MVP dựa trên TIM: endpoint, request/response schema, erro
 ## TIM-API-002: Implement Backend Service Skeleton
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:api-core`, `release:mvp-v1`<br>
+**Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-API-001
 
 ### Description
@@ -204,7 +274,7 @@ Tạo backend service skeleton có routing, config management, health endpoint, 
 ## TIM-API-003: Route API Gateway to ALB/Backend
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:api-core`, `release:mvp-v1`<br>
+**Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-API-002, TIM-INFRA-003
 
 ### Description
@@ -228,7 +298,7 @@ Cấu hình API Gateway route request tới Application Load Balancer, đảm b�
 ## TIM-API-004: Implement Standard Error Handling and Request Validation
 
 **Type:** Task | **Priority:** P1 | **Phase:** 1 | **Story Points:** 3<br>
-**Labels:** `epic:api-core`, `release:mvp-v1`<br>
+**Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-API-002
 
 ### Description
@@ -259,7 +329,7 @@ Chuẩn hóa validation và error handling để tất cả API trả response n
 ## TIM-INFRA-001: Design Cost-Optimized VPC, Subnets, Security Groups
 
 **Type:** Design | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:infrastructure`, `release:mvp-v1`<br>
+**Labels:** `epic:infrastructure`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** -
 
 ### Description
@@ -287,7 +357,7 @@ Thiết kế VPC cost-optimized cho MVP/dev, ưu tiên single-AZ hoặc tối đ
 ## TIM-INFRA-002: Provision ECR Repository and Image Policy
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 2<br>
-**Labels:** `epic:infrastructure`, `release:mvp-v1`<br>
+**Labels:** `epic:infrastructure`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** -
 
 ### Description
@@ -311,7 +381,7 @@ Tạo Amazon ECR repository cho backend Docker image, kèm lifecycle policy và 
 ## TIM-INFRA-003: Provision Cost-Optimized ALB, ECS Service and EC2 Capacity
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 8<br>
-**Labels:** `epic:infrastructure`, `release:mvp-v1`, `infra:cost-optimized`<br>
+**Labels:** `epic:infrastructure`, `release:mvp-v1`, `infra:cost-optimized`, `phase:1`<br>
 **Blocked By:** TIM-INFRA-001, TIM-INFRA-002, TIM-API-002
 
 ### Description
@@ -337,7 +407,7 @@ Triển khai backend container chạy trên ECS/EC2 phía sau Application Load B
 ## TIM-INFRA-004: Configure Auto Scaling Policies
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
-**Labels:** `epic:infrastructure`, `release:mvp-v1`<br>
+**Labels:** `epic:infrastructure`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-INFRA-003
 
 ### Description
@@ -361,7 +431,7 @@ Thiết lập scaling policy tối giản dựa trên CPU/memory/request count, 
 ## TIM-INFRA-005: Setup LocalStack Dev Environment
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:infrastructure`, `release:mvp-v1`, `env:localstack`, `repo:monorepo`<br>
+**Labels:** `epic:infrastructure`, `release:mvp-v1`, `env:localstack`, `repo:monorepo`, `phase:1`<br>
 **Blocked By:** TIM-INFRA-001, TIM-INFRA-002
 
 ### Description
@@ -397,7 +467,7 @@ Thiết lập môi trường dev/local dùng LocalStack để giả lập các A
 ## TIM-STOR-001: Design DynamoDB Data Model
 
 **Type:** Design | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:storage`, `release:mvp-v1`<br>
+**Labels:** `epic:storage`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-API-001
 
 ### Description
@@ -422,7 +492,7 @@ Thiết kế data model DynamoDB cho các entity MVP, bao gồm partition key, s
 ## TIM-STOR-002: Implement DynamoDB Repository Layer
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:storage`, `release:mvp-v1`<br>
+**Labels:** `epic:storage`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-STOR-001, TIM-API-002, TIM-INFRA-005
 
 ### Description
@@ -446,7 +516,7 @@ Xây repository/data access layer cho backend để đọc/ghi DynamoDB theo dat
 ## TIM-STOR-003: Implement S3 Presigned URL Upload Flow
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:storage`, `release:mvp-v1`<br>
+**Labels:** `epic:storage`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-AUTH-003, TIM-STOR-002, TIM-INFRA-005
 
 ### Description
@@ -472,7 +542,7 @@ Cung cấp API để backend tạo presigned URL cho client upload file trực t
 ## TIM-STOR-004: Configure CloudFront for File Delivery
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
-**Labels:** `epic:storage`, `release:mvp-v1`<br>
+**Labels:** `epic:storage`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-STOR-003
 
 ### Description
@@ -504,7 +574,7 @@ Cấu hình CloudFront trước S3 để phân phối file nhanh và kiểm soá
 ## TIM-ASYNC-001: Define Event and Queue Contract
 
 **Type:** Design | **Priority:** P1 | **Phase:** 1 | **Story Points:** 3<br>
-**Labels:** `epic:async-notification`, `release:mvp-v1`<br>
+**Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-API-001
 
 ### Description
@@ -529,7 +599,7 @@ Cấu hình CloudFront trước S3 để phân phối file nhanh và kiểm soá
 ## TIM-ASYNC-002: Implement EventBridge Publisher
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 3<br>
-**Labels:** `epic:async-notification`, `release:mvp-v1`<br>
+**Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-ASYNC-001, TIM-API-002
 
 ### Description
@@ -553,7 +623,7 @@ Backend publish domain events lên EventBridge khi các hành động nghiệp v
 ## TIM-ASYNC-003: Implement SQS Consumer Worker
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
-**Labels:** `epic:async-notification`, `release:mvp-v1`<br>
+**Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-ASYNC-001, TIM-INFRA-005
 
 ### Description
@@ -578,7 +648,7 @@ Xây worker/consumer đọc message từ SQS, xử lý idempotent và cập nh�
 ## TIM-ASYNC-004: Implement SNS Push Notification Flow
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
-**Labels:** `epic:async-notification`, `release:mvp-v1`<br>
+**Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-AUTH-003, TIM-STOR-002, TIM-INFRA-005
 
 ### Description
@@ -611,7 +681,7 @@ Tích hợp Amazon SNS để gửi push notification tới APNs iOS và FCM Andr
 ## TIM-CICD-001: Build and Test Pipeline with GitHub Actions for Monorepo
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 3<br>
-**Labels:** `epic:cicd-observability`, `release:mvp-v1`<br>
+**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-API-002
 
 ### Description
@@ -637,7 +707,7 @@ Thiết lập GitHub Actions workflow trong cùng repository `ManInTheHood/meome
 ## TIM-CICD-002: Push Docker Image to ECR
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 3<br>
-**Labels:** `epic:cicd-observability`, `release:mvp-v1`<br>
+**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-CICD-001, TIM-INFRA-002
 
 ### Description
@@ -661,7 +731,7 @@ Mở rộng pipeline để authenticate AWS, tag Docker image, và push image l�
 ## TIM-CICD-003: Rolling Update Deployment to ECS
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
-**Labels:** `epic:cicd-observability`, `release:mvp-v1`<br>
+**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:1`<br>
 **Blocked By:** TIM-CICD-002, TIM-INFRA-003
 
 ### Description
@@ -686,7 +756,7 @@ Tự động deploy image mới lên ECS bằng rolling update, đảm bảo zer
 ## TIM-CICD-004: Add Centralized Logging and Metrics
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
-**Labels:** `epic:cicd-observability`, `release:mvp-v1`<br>
+**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-INFRA-003, TIM-API-002
 
 ### Description
@@ -710,7 +780,7 @@ Thiết lập log, metric và dashboard cơ bản cho API, ALB, ECS/EC2, DynamoD
 ## TIM-CICD-005: Security Baseline and Secret Management
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
-**Labels:** `epic:cicd-observability`, `release:mvp-v1`<br>
+**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:2`<br>
 **Blocked By:** TIM-INFRA-003
 
 ### Description
@@ -735,7 +805,7 @@ Thiết lập baseline bảo mật cho secrets, IAM, network và logging để t
 ## TIM-CICD-006: Organize Monorepo Boundaries and Developer Commands
 
 **Type:** Task | **Priority:** P1 | **Phase:** 1 | **Story Points:** 3<br>
-**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `repo:monorepo`<br>
+**Labels:** `epic:cicd-observability`, `release:mvp-v1`, `repo:monorepo`, `phase:1`<br>
 **Blocked By:** -
 
 ### Description
@@ -761,6 +831,9 @@ Chuẩn hóa cấu trúc repository duy nhất để backend, mobile app, Terraf
 # Summary
 
 ## All Tickets by Epic
+
+Each section below maps directly to a Linear Milestone. The `Phase` column should be used with labels `phase:1`, `phase:2`, `phase:3`; when a phase starts, move its tickets from `Backlog` to `Planned` in Linear.
+
 
 ### Epic 1: Authentication & User Access (3 tickets)
 
@@ -857,13 +930,17 @@ Chuẩn hóa cấu trúc repository duy nhất để backend, mobile app, Terraf
 - Vì chỉ có một repo, cần path-based CI và folder convention rõ để tránh monorepo bị rối khi backend/mobile/infra cùng phát triển.
 - LocalStack giúp dev nhanh nhưng vẫn cần AWS dev/staging thật để verify Cognito, API Gateway, CloudFront, ECS/ALB/ASG và push notification.
 
-**Recommendation:** Không cần tạo thêm repo ở MVP. Giữ `ManInTheHood/meomeo` làm monorepo chính, tách bằng folder `backend/`, `meomeo_flutter_app/`, `AI_CONTEXT/`, `.github/workflows/` và dùng path-based CI. Nên chia MVP thành 2 track song song: backend/API/auth/storage và infrastructure/CI/CD. Phase 1 khóa scope ở LocalStack dev environment, authentication, API core, DynamoDB, S3 presigned upload, ALB/ECS/ECR cost-optimized single-AZ và rolling deploy; EventBridge/SQS/SNS, CloudFront private delivery, autoscaling tuning và full observability để Phase 2 nếu timeline gấp.
+**Recommendation:** Dùng Linear Milestone cho Epic, không dùng Milestone cho Cycle/Phase. Phase nên quản bằng status: ticket chưa làm để `Backlog`, ticket thuộc phase hiện tại chuyển sang `Planned`, sau đó đi qua `In Progress` → `In Review/QA` → `Done`.
+
+**Delivery Recommendation:** Không cần tạo thêm repo ở MVP. Giữ `ManInTheHood/meomeo` làm monorepo chính, tách bằng folder `backend/`, `meomeo_flutter_app/`, `AI_CONTEXT/`, `.github/workflows/` và dùng path-based CI. Nên chia MVP thành 2 track song song: backend/API/auth/storage và infrastructure/CI/CD. Phase 1 khóa scope ở LocalStack dev environment, authentication, API core, DynamoDB, S3 presigned upload, ALB/ECS/ECR cost-optimized single-AZ và rolling deploy; EventBridge/SQS/SNS, CloudFront private delivery, autoscaling tuning và full observability để Phase 2 nếu timeline gấp.
 
 ---
 
 ## Phase Overview
 
 ### Phase 1: Core MVP
+
+**Linear action:** Move all Phase 1 tickets from `Backlog` to `Planned` when Phase 1 starts. Keep Milestone as the ticket's Epic.
 
 - Cognito authentication và API Gateway authorizer.
 - API contract, backend skeleton, health check, validation/error model.
@@ -875,6 +952,8 @@ Chuẩn hóa cấu trúc repository duy nhất để backend, mobile app, Terraf
 
 ### Phase 2: Enhanced Features
 
+**Linear action:** Keep Phase 2 tickets in `Backlog` during Phase 1. Move them to `Planned` only when Phase 2 starts.
+
 - Auto Scaling policy tuning và staging load test.
 - CloudFront delivery, signed URL/cookie nếu cần private file.
 - EventBridge publisher, SQS worker, DLQ.
@@ -884,6 +963,8 @@ Chuẩn hóa cấu trúc repository duy nhất để backend, mobile app, Terraf
 
 ### Phase 3: Optional / Fast-follow
 
+**Linear action:** Keep Phase 3 tickets in `Backlog` unless the team explicitly pulls them into scope.
+
 - Advanced monitoring/SLO, distributed tracing.
 - WAF/rate limit tại API Gateway hoặc CloudFront.
 - Blue/green deployment hoặc canary release.
@@ -892,5 +973,5 @@ Chuẩn hóa cấu trúc repository duy nhất để backend, mobile app, Terraf
 
 ---
 
-_Document created: May 2026  
-Last updated: May 16, 2026_
+Document created: May 2026  
+Last updated: May 18, 2026
