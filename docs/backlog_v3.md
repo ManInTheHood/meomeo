@@ -60,6 +60,10 @@ TinderMeoMeo (TIM) là hệ thống backend/API phục vụ người dùng qua A
 
 ## Linear Management Practice
 
+### Ticket ID Strategy
+
+Ticket ID dùng format tuần tự đơn giản: `TIM-001`, `TIM-002`, `TIM-003`, ... Không chia prefix theo domain như `TIM-004` hoặc `TIM-001`. Epic/domain đã được quản lý bằng Linear Milestone và labels, nên ID chỉ cần đại diện cho thứ tự ticket trong backlog.
+
 Backlog này dùng **Epic** làm cấp quản lý chính trong Linear. Vì vậy, trong Linear, **Milestone nên map với Epic**, không dùng Milestone để đại diện cho Cycle/Phase.
 
 ### Linear Field Mapping
@@ -112,7 +116,7 @@ Khi team bắt đầu một phase, move tất cả ticket thuộc phase đó san
 
 ### Example
 
-Khi bắt đầu Phase 1, các ticket như `TIM-AUTH-001`, `TIM-API-001`, `TIM-INFRA-005`, `TIM-STOR-001`, `TIM-CICD-001` sẽ được chuyển sang:
+Khi bắt đầu Phase 1, các ticket như `TIM-001`, `TIM-004`, `TIM-012`, `TIM-013`, `TIM-021` sẽ được chuyển sang:
 
 - Milestone: theo Epic tương ứng.
 - Status: `Planned`.
@@ -132,7 +136,7 @@ Cách này giúp Linear dashboard ưu tiên hiển thị ticket của phase hi�
 
 ---
 
-## TIM-AUTH-001: Configure Cognito User Pool and App Client
+## TIM-001: Configure Cognito User Pool and App Client
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:auth`, `release:mvp-v1`, `phase:1`<br>
@@ -162,11 +166,11 @@ Thiết lập Amazon Cognito để hỗ trợ đăng ký, đăng nhập, refresh
 
 ---
 
-## TIM-AUTH-002: Integrate API Gateway Cognito Authorizer
+## TIM-002: Integrate API Gateway Cognito Authorizer
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:auth`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-AUTH-001
+**Blocked By:** TIM-001
 
 ### Description
 
@@ -186,11 +190,11 @@ Bảo vệ các API cần đăng nhập bằng Cognito authorizer tại API Gate
 
 ---
 
-## TIM-AUTH-003: Implement Backend User Context Middleware
+## TIM-003: Implement Backend User Context Middleware
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 3<br>
 **Labels:** `epic:auth`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-AUTH-002
+**Blocked By:** TIM-002
 
 ### Description
 
@@ -217,7 +221,7 @@ Xây middleware backend để parse user identity từ request đã xác thực 
 
 ---
 
-## TIM-API-001: Define API Contract for MVP
+## TIM-004: Define API Contract for MVP
 
 **Type:** Design | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
@@ -246,11 +250,11 @@ Chốt API contract MVP dựa trên TIM: endpoint, request/response schema, erro
 
 ---
 
-## TIM-API-002: Implement Backend Service Skeleton
+## TIM-005: Implement Backend Service Skeleton
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-API-001
+**Blocked By:** TIM-004
 
 ### Description
 
@@ -271,11 +275,11 @@ Tạo backend service skeleton có routing, config management, health endpoint, 
 
 ---
 
-## TIM-API-003: Route API Gateway to ALB/Backend
+## TIM-006: Route API Gateway to ALB/Backend
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-API-002, TIM-INFRA-003
+**Blocked By:** TIM-005, TIM-010
 
 ### Description
 
@@ -295,11 +299,11 @@ Cấu hình API Gateway route request tới Application Load Balancer, đảm b�
 
 ---
 
-## TIM-API-004: Implement Standard Error Handling and Request Validation
+## TIM-007: Implement Standard Error Handling and Request Validation
 
 **Type:** Task | **Priority:** P1 | **Phase:** 1 | **Story Points:** 3<br>
 **Labels:** `epic:api-core`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-API-002
+**Blocked By:** TIM-005
 
 ### Description
 
@@ -326,7 +330,7 @@ Chuẩn hóa validation và error handling để tất cả API trả response n
 
 ---
 
-## TIM-INFRA-001: Design Cost-Optimized VPC, Subnets, Security Groups
+## TIM-008: Design Cost-Optimized VPC, Subnets, Security Groups
 
 **Type:** Design | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:infrastructure`, `release:mvp-v1`, `phase:1`<br>
@@ -354,7 +358,7 @@ Thiết kế VPC cost-optimized cho MVP/dev, ưu tiên single-AZ hoặc tối đ
 
 ---
 
-## TIM-INFRA-002: Provision ECR Repository and Image Policy
+## TIM-009: Provision ECR Repository and Image Policy
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 2<br>
 **Labels:** `epic:infrastructure`, `release:mvp-v1`, `phase:1`<br>
@@ -378,11 +382,11 @@ Tạo Amazon ECR repository cho backend Docker image, kèm lifecycle policy và 
 
 ---
 
-## TIM-INFRA-003: Provision Cost-Optimized ALB, ECS Service and EC2 Capacity
+## TIM-010: Provision Cost-Optimized ALB, ECS Service and EC2 Capacity
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 8<br>
 **Labels:** `epic:infrastructure`, `release:mvp-v1`, `infra:cost-optimized`, `phase:1`<br>
-**Blocked By:** TIM-INFRA-001, TIM-INFRA-002, TIM-API-002
+**Blocked By:** TIM-008, TIM-009, TIM-005
 
 ### Description
 
@@ -404,11 +408,11 @@ Triển khai backend container chạy trên ECS/EC2 phía sau Application Load B
 
 ---
 
-## TIM-INFRA-004: Configure Auto Scaling Policies
+## TIM-011: Configure Auto Scaling Policies
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
 **Labels:** `epic:infrastructure`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-INFRA-003
+**Blocked By:** TIM-010
 
 ### Description
 
@@ -428,11 +432,11 @@ Thiết lập scaling policy tối giản dựa trên CPU/memory/request count, 
 
 ---
 
-## TIM-INFRA-005: Setup LocalStack Dev Environment
+## TIM-012: Setup LocalStack Dev Environment
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:infrastructure`, `release:mvp-v1`, `env:localstack`, `repo:monorepo`, `phase:1`<br>
-**Blocked By:** TIM-INFRA-001, TIM-INFRA-002
+**Blocked By:** TIM-008, TIM-009
 
 ### Description
 
@@ -464,11 +468,11 @@ Thiết lập môi trường dev/local dùng LocalStack để giả lập các A
 
 ---
 
-## TIM-STOR-001: Design DynamoDB Data Model
+## TIM-013: Design DynamoDB Data Model
 
 **Type:** Design | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:storage`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-API-001
+**Blocked By:** TIM-004
 
 ### Description
 
@@ -489,11 +493,11 @@ Thiết kế data model DynamoDB cho các entity MVP, bao gồm partition key, s
 
 ---
 
-## TIM-STOR-002: Implement DynamoDB Repository Layer
+## TIM-014: Implement DynamoDB Repository Layer
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:storage`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-STOR-001, TIM-API-002, TIM-INFRA-005
+**Blocked By:** TIM-013, TIM-005, TIM-012
 
 ### Description
 
@@ -513,11 +517,11 @@ Xây repository/data access layer cho backend để đọc/ghi DynamoDB theo dat
 
 ---
 
-## TIM-STOR-003: Implement S3 Presigned URL Upload Flow
+## TIM-015: Implement S3 Presigned URL Upload Flow
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:storage`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-AUTH-003, TIM-STOR-002, TIM-INFRA-005
+**Blocked By:** TIM-003, TIM-014, TIM-012
 
 ### Description
 
@@ -539,11 +543,11 @@ Cung cấp API để backend tạo presigned URL cho client upload file trực t
 
 ---
 
-## TIM-STOR-004: Configure CloudFront for File Delivery
+## TIM-016: Configure CloudFront for File Delivery
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
 **Labels:** `epic:storage`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-STOR-003
+**Blocked By:** TIM-015
 
 ### Description
 
@@ -571,11 +575,11 @@ Cấu hình CloudFront trước S3 để phân phối file nhanh và kiểm soá
 
 ---
 
-## TIM-ASYNC-001: Define Event and Queue Contract
+## TIM-017: Define Event and Queue Contract
 
 **Type:** Design | **Priority:** P1 | **Phase:** 1 | **Story Points:** 3<br>
 **Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-API-001
+**Blocked By:** TIM-004
 
 ### Description
 
@@ -596,11 +600,11 @@ Cấu hình CloudFront trước S3 để phân phối file nhanh và kiểm soá
 
 ---
 
-## TIM-ASYNC-002: Implement EventBridge Publisher
+## TIM-018: Implement EventBridge Publisher
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 3<br>
 **Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-ASYNC-001, TIM-API-002
+**Blocked By:** TIM-017, TIM-005
 
 ### Description
 
@@ -620,11 +624,11 @@ Backend publish domain events lên EventBridge khi các hành động nghiệp v
 
 ---
 
-## TIM-ASYNC-003: Implement SQS Consumer Worker
+## TIM-019: Implement SQS Consumer Worker
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
 **Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-ASYNC-001, TIM-INFRA-005
+**Blocked By:** TIM-017, TIM-012
 
 ### Description
 
@@ -645,11 +649,11 @@ Xây worker/consumer đọc message từ SQS, xử lý idempotent và cập nh�
 
 ---
 
-## TIM-ASYNC-004: Implement SNS Push Notification Flow
+## TIM-020: Implement SNS Push Notification Flow
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
 **Labels:** `epic:async-notification`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-AUTH-003, TIM-STOR-002, TIM-INFRA-005
+**Blocked By:** TIM-003, TIM-014, TIM-012
 
 ### Description
 
@@ -678,11 +682,11 @@ Tích hợp Amazon SNS để gửi push notification tới APNs iOS và FCM Andr
 
 ---
 
-## TIM-CICD-001: Build and Test Pipeline with GitHub Actions for Monorepo
+## TIM-021: Build and Test Pipeline with GitHub Actions for Monorepo
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 3<br>
 **Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-API-002
+**Blocked By:** TIM-005
 
 ### Description
 
@@ -704,11 +708,11 @@ Thiết lập GitHub Actions workflow trong cùng repository `ManInTheHood/meome
 
 ---
 
-## TIM-CICD-002: Push Docker Image to ECR
+## TIM-022: Push Docker Image to ECR
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 3<br>
 **Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-CICD-001, TIM-INFRA-002
+**Blocked By:** TIM-021, TIM-009
 
 ### Description
 
@@ -728,11 +732,11 @@ Mở rộng pipeline để authenticate AWS, tag Docker image, và push image l�
 
 ---
 
-## TIM-CICD-003: Rolling Update Deployment to ECS
+## TIM-023: Rolling Update Deployment to ECS
 
 **Type:** Task | **Priority:** P0 | **Phase:** 1 | **Story Points:** 5<br>
 **Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:1`<br>
-**Blocked By:** TIM-CICD-002, TIM-INFRA-003
+**Blocked By:** TIM-022, TIM-010
 
 ### Description
 
@@ -753,11 +757,11 @@ Tự động deploy image mới lên ECS bằng rolling update, đảm bảo zer
 
 ---
 
-## TIM-CICD-004: Add Centralized Logging and Metrics
+## TIM-024: Add Centralized Logging and Metrics
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
 **Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-INFRA-003, TIM-API-002
+**Blocked By:** TIM-010, TIM-005
 
 ### Description
 
@@ -777,11 +781,11 @@ Thiết lập log, metric và dashboard cơ bản cho API, ALB, ECS/EC2, DynamoD
 
 ---
 
-## TIM-CICD-005: Security Baseline and Secret Management
+## TIM-025: Security Baseline and Secret Management
 
 **Type:** Task | **Priority:** P1 | **Phase:** 2 | **Story Points:** 5<br>
 **Labels:** `epic:cicd-observability`, `release:mvp-v1`, `phase:2`<br>
-**Blocked By:** TIM-INFRA-003
+**Blocked By:** TIM-010
 
 ### Description
 
@@ -802,7 +806,7 @@ Thiết lập baseline bảo mật cho secrets, IAM, network và logging để t
 
 ---
 
-## TIM-CICD-006: Organize Monorepo Boundaries and Developer Commands
+## TIM-026: Organize Monorepo Boundaries and Developer Commands
 
 **Type:** Task | **Priority:** P1 | **Phase:** 1 | **Story Points:** 3<br>
 **Labels:** `epic:cicd-observability`, `release:mvp-v1`, `repo:monorepo`, `phase:1`<br>
@@ -839,57 +843,57 @@ Each section below maps directly to a Linear Milestone. The `Phase` column shoul
 
 | ID | Title | Priority | Phase | Blocked By |
 | --- | --- | --- | ---: | --- |
-| TIM-AUTH-001 | Configure Cognito User Pool and App Client | P0 | 1 | - |
-| TIM-AUTH-002 | Integrate API Gateway Cognito Authorizer | P0 | 1 | TIM-AUTH-001 |
-| TIM-AUTH-003 | Implement Backend User Context Middleware | P0 | 1 | TIM-AUTH-002 |
+| TIM-001 | Configure Cognito User Pool and App Client | P0 | 1 | - |
+| TIM-002 | Integrate API Gateway Cognito Authorizer | P0 | 1 | TIM-001 |
+| TIM-003 | Implement Backend User Context Middleware | P0 | 1 | TIM-002 |
 
 ### Epic 2: API Core & Backend Service (4 tickets)
 
 | ID | Title | Priority | Phase | Blocked By |
 | --- | --- | --- | ---: | --- |
-| TIM-API-001 | Define API Contract for MVP | P0 | 1 | - |
-| TIM-API-002 | Implement Backend Service Skeleton | P0 | 1 | TIM-API-001 |
-| TIM-API-003 | Route API Gateway to ALB/Backend | P0 | 1 | TIM-API-002, TIM-INFRA-003 |
-| TIM-API-004 | Implement Standard Error Handling and Request Validation | P1 | 1 | TIM-API-002 |
+| TIM-004 | Define API Contract for MVP | P0 | 1 | - |
+| TIM-005 | Implement Backend Service Skeleton | P0 | 1 | TIM-004 |
+| TIM-006 | Route API Gateway to ALB/Backend | P0 | 1 | TIM-005, TIM-010 |
+| TIM-007 | Implement Standard Error Handling and Request Validation | P1 | 1 | TIM-005 |
 
 ### Epic 3: Infrastructure, Compute & Scaling (5 tickets)
 
 | ID | Title | Priority | Phase | Blocked By |
 | --- | --- | --- | ---: | --- |
-| TIM-INFRA-001 | Design Cost-Optimized VPC, Subnets, Security Groups | P0 | 1 | - |
-| TIM-INFRA-002 | Provision ECR Repository and Image Policy | P0 | 1 | - |
-| TIM-INFRA-003 | Provision Cost-Optimized ALB, ECS Service and EC2 Capacity | P0 | 1 | TIM-INFRA-001, TIM-INFRA-002, TIM-API-002 |
-| TIM-INFRA-004 | Configure Auto Scaling Policies | P1 | 2 | TIM-INFRA-003 |
-| TIM-INFRA-005 | Setup LocalStack Dev Environment | P0 | 1 | TIM-INFRA-001, TIM-INFRA-002 |
+| TIM-008 | Design Cost-Optimized VPC, Subnets, Security Groups | P0 | 1 | - |
+| TIM-009 | Provision ECR Repository and Image Policy | P0 | 1 | - |
+| TIM-010 | Provision Cost-Optimized ALB, ECS Service and EC2 Capacity | P0 | 1 | TIM-008, TIM-009, TIM-005 |
+| TIM-011 | Configure Auto Scaling Policies | P1 | 2 | TIM-010 |
+| TIM-012 | Setup LocalStack Dev Environment | P0 | 1 | TIM-008, TIM-009 |
 
 ### Epic 4: Data Storage & File Delivery (4 tickets)
 
 | ID | Title | Priority | Phase | Blocked By |
 | --- | --- | --- | ---: | --- |
-| TIM-STOR-001 | Design DynamoDB Data Model | P0 | 1 | TIM-API-001 |
-| TIM-STOR-002 | Implement DynamoDB Repository Layer | P0 | 1 | TIM-STOR-001, TIM-API-002, TIM-INFRA-005 |
-| TIM-STOR-003 | Implement S3 Presigned URL Upload Flow | P0 | 1 | TIM-AUTH-003, TIM-STOR-002, TIM-INFRA-005 |
-| TIM-STOR-004 | Configure CloudFront for File Delivery | P1 | 2 | TIM-STOR-003 |
+| TIM-013 | Design DynamoDB Data Model | P0 | 1 | TIM-004 |
+| TIM-014 | Implement DynamoDB Repository Layer | P0 | 1 | TIM-013, TIM-005, TIM-012 |
+| TIM-015 | Implement S3 Presigned URL Upload Flow | P0 | 1 | TIM-003, TIM-014, TIM-012 |
+| TIM-016 | Configure CloudFront for File Delivery | P1 | 2 | TIM-015 |
 
 ### Epic 5: Async Processing & Notifications (4 tickets)
 
 | ID | Title | Priority | Phase | Blocked By |
 | --- | --- | --- | ---: | --- |
-| TIM-ASYNC-001 | Define Event and Queue Contract | P1 | 1 | TIM-API-001 |
-| TIM-ASYNC-002 | Implement EventBridge Publisher | P1 | 2 | TIM-ASYNC-001, TIM-API-002 |
-| TIM-ASYNC-003 | Implement SQS Consumer Worker | P1 | 2 | TIM-ASYNC-001, TIM-INFRA-005 |
-| TIM-ASYNC-004 | Implement SNS Push Notification Flow | P1 | 2 | TIM-AUTH-003, TIM-STOR-002, TIM-INFRA-005 |
+| TIM-017 | Define Event and Queue Contract | P1 | 1 | TIM-004 |
+| TIM-018 | Implement EventBridge Publisher | P1 | 2 | TIM-017, TIM-005 |
+| TIM-019 | Implement SQS Consumer Worker | P1 | 2 | TIM-017, TIM-012 |
+| TIM-020 | Implement SNS Push Notification Flow | P1 | 2 | TIM-003, TIM-014, TIM-012 |
 
 ### Epic 6: CI/CD, Release & Observability (6 tickets)
 
 | ID | Title | Priority | Phase | Blocked By |
 | --- | --- | --- | ---: | --- |
-| TIM-CICD-001 | Build and Test Pipeline with GitHub Actions for Monorepo | P0 | 1 | TIM-API-002 |
-| TIM-CICD-002 | Push Docker Image to ECR | P0 | 1 | TIM-CICD-001, TIM-INFRA-002 |
-| TIM-CICD-003 | Rolling Update Deployment to ECS | P0 | 1 | TIM-CICD-002, TIM-INFRA-003 |
-| TIM-CICD-004 | Add Centralized Logging and Metrics | P1 | 2 | TIM-INFRA-003, TIM-API-002 |
-| TIM-CICD-005 | Security Baseline and Secret Management | P1 | 2 | TIM-INFRA-003 |
-| TIM-CICD-006 | Organize Monorepo Boundaries and Developer Commands | P1 | 1 | - |
+| TIM-021 | Build and Test Pipeline with GitHub Actions for Monorepo | P0 | 1 | TIM-005 |
+| TIM-022 | Push Docker Image to ECR | P0 | 1 | TIM-021, TIM-009 |
+| TIM-023 | Rolling Update Deployment to ECS | P0 | 1 | TIM-022, TIM-010 |
+| TIM-024 | Add Centralized Logging and Metrics | P1 | 2 | TIM-010, TIM-005 |
+| TIM-025 | Security Baseline and Secret Management | P1 | 2 | TIM-010 |
+| TIM-026 | Organize Monorepo Boundaries and Developer Commands | P1 | 1 | - |
 
 ---
 
@@ -909,14 +913,14 @@ Each section below maps directly to a Linear Milestone. The `Phase` column shoul
 
 ## Delivery Projections
 
-**Baseline Assumption:** 5 FTEs delivering ~45 SP per 2-week sprint. Velocity đã trừ hao cho review, QA, deploy, AWS configuration, và unknowns từ TIM/architecture.
+**Baseline Assumption:** 5 FTEs delivering ~58 SP per 2-week sprint for a focused MVP scope. Target delivery should stay around **1 to 1.5 months** by keeping Phase 1 tight, parallelizing backend/infra/mobile work, and deferring non-critical Phase 2/3 items.
 
 | Team Size | SP/Sprint | Sprints | Weeks | Months |
 | ---: | ---: | ---: | ---: | ---: |
-| 3 FTEs | 27 | 4.3 | 8.6 | 2.2 |
-| 4 FTEs | 36 | 3.2 | 6.4 | 1.6 |
-| 5 FTEs | 45 | 2.6 | 5.2 | 1.3 |
-| 6 FTEs | 54 | 2.2 | 4.4 | 1.1 |
+| 3 FTEs | 36 | 3.2 | 6.4 | 1.6 |
+| 4 FTEs | 48 | 2.4 | 4.8 | 1.2 |
+| 5 FTEs | 58 | 2.0 | 4.0 | 1.0 |
+| 6 FTEs | 70 | 1.7 | 3.4 | 0.9 |
 
 ### Caveats
 
@@ -929,10 +933,11 @@ Each section below maps directly to a Linear Milestone. The `Phase` column shoul
 - Zero-downtime rolling update phụ thuộc health check và app startup time ổn định.
 - Vì chỉ có một repo, cần path-based CI và folder convention rõ để tránh monorepo bị rối khi backend/mobile/infra cùng phát triển.
 - LocalStack giúp dev nhanh nhưng vẫn cần AWS dev/staging thật để verify Cognito, API Gateway, CloudFront, ECS/ALB/ASG và push notification.
+- Timeline 1-1.5 tháng chỉ hợp lý nếu giữ Phase 1 thật gọn, tránh đưa CloudFront private delivery, full notification flow, advanced autoscaling và observability đầy đủ vào MVP bắt buộc.
 
 **Recommendation:** Dùng Linear Milestone cho Epic, không dùng Milestone cho Cycle/Phase. Phase nên quản bằng status: ticket chưa làm để `Backlog`, ticket thuộc phase hiện tại chuyển sang `Planned`, sau đó đi qua `In Progress` → `In Review/QA` → `Done`.
 
-**Delivery Recommendation:** Không cần tạo thêm repo ở MVP. Giữ `ManInTheHood/meomeo` làm monorepo chính, tách bằng folder `backend/`, `meomeo_flutter_app/`, `AI_CONTEXT/`, `.github/workflows/` và dùng path-based CI. Nên chia MVP thành 2 track song song: backend/API/auth/storage và infrastructure/CI/CD. Phase 1 khóa scope ở LocalStack dev environment, authentication, API core, DynamoDB, S3 presigned upload, ALB/ECS/ECR cost-optimized single-AZ và rolling deploy; EventBridge/SQS/SNS, CloudFront private delivery, autoscaling tuning và full observability để Phase 2 nếu timeline gấp.
+**Delivery Recommendation:** Không cần tạo thêm repo ở MVP. Giữ `ManInTheHood/meomeo` làm monorepo chính, tách bằng folder `backend/`, `meomeo_flutter_app/`, `AI_CONTEXT/`, `.github/workflows/` và dùng path-based CI. Nên chia MVP thành 2 track song song: backend/API/auth/storage và infrastructure/CI/CD. Để giữ delivery trong khoảng 1 đến 1.5 tháng, Phase 1 cần khóa scope ở LocalStack dev environment, authentication, API core, DynamoDB, S3 presigned upload, ALB/ECS/ECR cost-optimized single-AZ và rolling deploy; EventBridge/SQS/SNS, CloudFront private delivery, autoscaling tuning và full observability để Phase 2 nếu timeline gấp.
 
 ---
 
@@ -940,7 +945,7 @@ Each section below maps directly to a Linear Milestone. The `Phase` column shoul
 
 ### Phase 1: Core MVP
 
-**Linear action:** Move all Phase 1 tickets from `Backlog` to `Planned` when Phase 1 starts. Keep Milestone as the ticket's Epic.
+**Linear action:** Move all Phase 1 tickets from `Backlog` to `Planned` when Phase 1 starts. Keep Milestone as the ticket's Epic. Phase 1 should be treated as the main 1-1.5 month delivery scope.
 
 - Cognito authentication và API Gateway authorizer.
 - API contract, backend skeleton, health check, validation/error model.
@@ -973,5 +978,5 @@ Each section below maps directly to a Linear Milestone. The `Phase` column shoul
 
 ---
 
-Document created: May 2026  
-Last updated: May 18, 2026
+_Document created: May 2026  
+Last updated: May 16, 2026_
