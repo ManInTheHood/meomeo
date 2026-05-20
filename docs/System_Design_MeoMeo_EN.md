@@ -10,22 +10,22 @@ The proposed architecture uses AWS services, a Flutter mobile app, Amazon Cognit
 
 ## 2.1 Main components
 
-| Layer | Component | Responsibility |
-|---|---|---|
-| Client | Flutter mobile app | iOS and Android application |
-| Authentication | Amazon Cognito | Registration, login, JWT issuance |
-| API entry | Amazon API Gateway | Public API entry point from the mobile app |
-| Load balancing | Application Load Balancer | Routes requests to backend compute |
-| Container registry | Amazon ECR | Stores backend Docker images |
-| Compute | Amazon EC2 / ECS + Auto Scaling Group | Runs GraphQL API, worker, and Nginx reverse proxy |
-| Business API | GraphQL API | Handles core business logic |
-| Async events | Amazon EventBridge | Publishes domain events |
-| Queue | Amazon SQS | Buffers background jobs |
-| Notification | Amazon SNS | Sends push notifications through APNs / FCM |
-| Database | Amazon DynamoDB | Stores users, cats, swipes, matches, chat metadata, premium status |
-| Object storage | Amazon S3 | Stores cat avatars and albums |
-| CDN | Amazon CloudFront | Delivers media from S3 |
-| CI/CD | GitHub Actions | Builds, tests, pushes images, and deploys |
+| Layer              | Component                             | Responsibility                                                     |
+| ------------------ | ------------------------------------- | ------------------------------------------------------------------ |
+| Client             | Flutter mobile app                    | iOS and Android application                                        |
+| Authentication     | Amazon Cognito                        | Registration, login, JWT issuance                                  |
+| API entry          | Amazon API Gateway                    | Public API entry point from the mobile app                         |
+| Load balancing     | Application Load Balancer             | Routes requests to backend compute                                 |
+| Container registry | Amazon ECR                            | Stores backend Docker images                                       |
+| Compute            | Amazon EC2 / ECS + Auto Scaling Group | Runs GraphQL API, worker, and Nginx reverse proxy                  |
+| Business API       | GraphQL API                           | Handles core business logic                                        |
+| Async events       | Amazon EventBridge                    | Publishes domain events                                            |
+| Queue              | Amazon SQS                            | Buffers background jobs                                            |
+| Notification       | Amazon SNS                            | Sends push notifications through APNs / FCM                        |
+| Database           | Amazon DynamoDB                       | Stores users, cats, swipes, matches, chat metadata, premium status |
+| Object storage     | Amazon S3                             | Stores cat avatars and albums                                      |
+| CDN                | Amazon CloudFront                     | Delivers media from S3                                             |
+| CI/CD              | GitHub Actions                        | Builds, tests, pushes images, and deploys                          |
 
 ## 2.2 Deployment model
 
@@ -458,14 +458,14 @@ mutation SendMessage($input: SendMessageInput!) {
 
 ## 7.1 EventBridge event types
 
-| Event | Trigger | Consumer |
-|---|---|---|
-| `SwipeCreated` | User swipes left/right/super_like | Worker / analytics |
-| `MatchCreated` | Mutual right swipe creates match | Worker notification |
-| `MessageSent` | User sends message | Worker notification |
-| `PhotoUploaded` | Cat photo metadata saved | Optional media worker |
-| `PremiumActivated` | Premium status changes | Worker notification |
-| `BoostStarted` | Boost starts | Discovery ranking / notification |
+| Event              | Trigger                           | Consumer                         |
+| ------------------ | --------------------------------- | -------------------------------- |
+| `SwipeCreated`     | User swipes left/right/super_like | Worker / analytics               |
+| `MatchCreated`     | Mutual right swipe creates match  | Worker notification              |
+| `MessageSent`      | User sends message                | Worker notification              |
+| `PhotoUploaded`    | Cat photo metadata saved          | Optional media worker            |
+| `PremiumActivated` | Premium status changes            | Worker notification              |
+| `BoostStarted`     | Boost starts                      | Discovery ranking / notification |
 
 ## 7.2 Example event payload
 
@@ -691,33 +691,33 @@ Recommended alerts:
 
 ## 15. Failure Scenarios
 
-| Scenario | Expected behavior |
-|---|---|
-| Cognito unavailable | User cannot log in; existing valid sessions may continue until token expiry |
-| DynamoDB write fails | API returns error; no swipe/match/message is confirmed |
+| Scenario                  | Expected behavior                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------- |
+| Cognito unavailable       | User cannot log in; existing valid sessions may continue until token expiry        |
+| DynamoDB write fails      | API returns error; no swipe/match/message is confirmed                             |
 | EventBridge publish fails | Core operation may still succeed, but event should be logged and retried if needed |
-| S3 upload fails | App asks user to retry upload |
-| SNS notification fails | Message/match remains valid; notification failure is logged |
-| Worker down | Events remain in SQS and are processed after recovery |
-| EC2 instance down | MVP may be unavailable; final ASG architecture routes to another healthy instance |
+| S3 upload fails           | App asks user to retry upload                                                      |
+| SNS notification fails    | Message/match remains valid; notification failure is logged                        |
+| Worker down               | Events remain in SQS and are processed after recovery                              |
+| EC2 instance down         | MVP may be unavailable; final ASG architecture routes to another healthy instance  |
 
 ## 16. Technology Choices and Rationale
 
-| Technology | Reason |
-|---|---|
-| Flutter | Single mobile codebase for iOS and Android |
+| Technology     | Reason                                                             |
+| -------------- | ------------------------------------------------------------------ |
+| Flutter        | Single mobile codebase for iOS and Android                         |
 | Amazon Cognito | AWS-native authentication, JWT support, suitable free tier for MVP |
-| GraphQL | Flexible API for mobile app and nested profile data |
-| EC2 | Simple, low-cost MVP deployment |
-| Docker Compose | Easy local and single-server deployment |
-| ECS / ASG | Future scalable container deployment |
-| DynamoDB | AWS-native NoSQL database, scalable, good free tier |
-| S3 | Low-cost and scalable media storage |
-| CloudFront | Faster media delivery and caching |
-| EventBridge | Decoupled event-driven architecture |
-| SQS | Reliable queue for background jobs |
-| SNS | Push notifications through APNs and FCM |
-| GitHub Actions | Simple CI/CD from repository to AWS |
+| GraphQL        | Flexible API for mobile app and nested profile data                |
+| EC2            | Simple, low-cost MVP deployment                                    |
+| Docker Compose | Easy local and single-server deployment                            |
+| ECS / ASG      | Future scalable container deployment                               |
+| DynamoDB       | AWS-native NoSQL database, scalable, good free tier                |
+| S3             | Low-cost and scalable media storage                                |
+| CloudFront     | Faster media delivery and caching                                  |
+| EventBridge    | Decoupled event-driven architecture                                |
+| SQS            | Reliable queue for background jobs                                 |
+| SNS            | Push notifications through APNs and FCM                            |
+| GitHub Actions | Simple CI/CD from repository to AWS                                |
 
 ## 17. Open Technical Questions
 
