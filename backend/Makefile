@@ -1,23 +1,16 @@
-.PHONY: local-up local-down tf-init-local tf-plan-local tf-apply-local
+.PHONY: tf-init-dev tf-plan-dev tf-apply-dev
 
-# --- DOCKER / LOCALSTACK ---
-local-up:
-	docker-compose up -d
+# --- TERRAFORM DEV ---
+tf-init-dev:
+	cd terraform/envs/dev && terraform init
 
-local-down:
-	docker-compose down
+tf-plan-dev:
+	cd terraform/envs/dev && terraform plan
 
-# --- TERRAFORM LOCAL ---
-tf-init-local:
-	cd terraform/envs/local && terraform init
-
-tf-plan-local:
-	cd terraform/envs/local && terraform plan
-
-tf-apply-local:
-	cd terraform/envs/local && terraform apply -auto-approve
+tf-apply-dev:
+	cd terraform/envs/dev && terraform apply -auto-approve
 
 # --- CLEANUP ---
 clean:
 	find . -type d -name ".terraform" -exec rm -rf {} +
-	rm -f terraform/envs/local/terraform.tfstate*
+	rm -f terraform/envs/dev/terraform.tfstate*

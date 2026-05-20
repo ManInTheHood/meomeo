@@ -1,27 +1,10 @@
 provider "aws" {
-  region                      = "ap-southeast-1"
-  access_key                  = "test"
-  secret_key                  = "test"
-  skip_credentials_validation = true
-  skip_metadata_api_check     = true
-  skip_requesting_account_id  = true
-  s3_use_path_style           = true
-
-  endpoints {
-    ec2          = "http://localhost:4566"
-    dynamodb     = "http://localhost:4566"
-    s3           = "http://localhost:4566"
-    cognito-idp  = "http://localhost:4566"
-    sqs          = "http://localhost:4566"
-    sns          = "http://localhost:4566"
-    events       = "http://localhost:4566"
-    apigatewayv2 = "http://localhost:4566"
-  }
+  region = "ap-southeast-1"
 }
 
 module "vpc" {
   source      = "../../modules/vpc"
-  environment = "local"
+  environment = "dev"
 }
 
 output "vpc_id" {
@@ -30,12 +13,12 @@ output "vpc_id" {
 
 module "database" {
   source      = "../../modules/database"
-  environment = "local"
+  environment = "dev"
 }
 
 module "storage" {
   source      = "../../modules/storage"
-  environment = "local"
+  environment = "dev"
 }
 
 module "compute" {
@@ -49,12 +32,12 @@ module "compute" {
 
 module "auth" {
   source      = "../../modules/auth"
-  environment = "local"
+  environment = "dev"
 }
 
 module "notification" {
   source      = "../../modules/notification"
-  environment = "local"
+  environment = "dev"
 }
 
 module "api" {

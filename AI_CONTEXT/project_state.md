@@ -3,12 +3,12 @@
 **Last Updated:** 2026-05-15
 
 ## 1. Current Status
-The entire AWS infrastructure architecture for the **MeoMeo** application has been successfully codified using Terraform (Infrastructure as Code) and configured to be fully compatible with the LocalStack simulation environment.
+The entire AWS infrastructure architecture for the **MeoMeo** application has been successfully codified using Terraform (Infrastructure as Code) and is deployed to the AWS dev environment.
 
 The following modules have been implemented and logically linked in the `backend/terraform/modules/` directory:
 1. **VPC (Core Network):** Private virtual network with an Internet Gateway and 3 Public Subnets (Multi-AZ).
-2. **Storage:** S3 Bucket (`meomeo-storage-local`) supporting direct file Uploads/Downloads via Presigned URLs (CORS enabled for the App).
-3. **Database:** DynamoDB Table (`meomeo-main-table-local`) configured with cost-effective Pay-per-request billing.
+2. **Storage:** S3 Bucket (`meomeo-storage-dev`) supporting direct file Uploads/Downloads via Presigned URLs (CORS enabled for the App).
+3. **Database:** DynamoDB Table (`meomeo-main-table-dev`) configured with cost-effective Pay-per-request billing.
 4. **Compute:** 
    - Application Load Balancer (ALB).
    - ECS Cluster & Task Definition running on Serverless Fargate (currently utilizing a temporary `nginx` container as a placeholder).
@@ -26,7 +26,7 @@ These are the pending items that the AI and Developer need to implement in upcom
 - [ ] Write the actual `Dockerfile` for the API and update the ECS Task Definition (replacing the temporary `nginx` image with the real backend Docker image).
 
 ### Phase 2B: Frontend (Flutter) Integration
-- [ ] Configure the Flutter application's endpoint URLs (in the `meomeo_flutter_app` directory) to point to `http://localhost:4566` for connecting to the local API Gateway and S3.
+- [ ] Configure the Flutter application's endpoint URLs (in the `meomeo_flutter_app` directory) to point to the real API Gateway and S3 endpoints.
 - [ ] Integrate the AWS Cognito SDK into the Flutter App to test the Registration / Login flows.
 
 ### Phase 3: CI/CD Automation
