@@ -50,6 +50,10 @@ output "cognito_oauth_scopes" {
   value = module.auth.oauth_scopes
 }
 
+output "cognito_explicit_auth_flows" {
+  value = module.auth.explicit_auth_flows
+}
+
 output "sns_topic_arn" {
   value = module.notification.sns_topic_arn
 }

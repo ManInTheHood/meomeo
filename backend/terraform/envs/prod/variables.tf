@@ -78,6 +78,11 @@ variable "cognito_oauth_scopes" {
   type        = list(string)
 }
 
+variable "cognito_explicit_auth_flows" {
+  description = "Explicit Cognito auth flows for direct SDK sign-in and token refresh"
+  type        = list(string)
+}
+
 variable "cognito_access_token_validity_hours" {
   description = "Access token lifetime in hours"
   type        = number

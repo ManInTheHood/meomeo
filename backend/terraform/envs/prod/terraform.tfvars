@@ -25,6 +25,7 @@ cognito_logout_urls = [
   "https://app.meomeo.com/auth/logout"
 ]
 cognito_oauth_scopes                = ["openid", "email", "profile"]
+cognito_explicit_auth_flows         = ["ALLOW_USER_SRP_AUTH", "ALLOW_REFRESH_TOKEN_AUTH"]
 cognito_access_token_validity_hours = 1
 cognito_id_token_validity_hours     = 1
 cognito_refresh_token_validity_days = 30
