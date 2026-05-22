@@ -41,3 +41,7 @@ output "logout_urls" {
 output "oauth_scopes" {
   value = var.oauth_scopes
 }
+
+output "explicit_auth_flows" {
+  value = var.explicit_auth_flows
+}

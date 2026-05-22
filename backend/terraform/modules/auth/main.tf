@@ -59,6 +59,7 @@ resource "aws_cognito_user_pool_client" "flutter_app" {
   callback_urls                        = var.callback_urls
   logout_urls                          = var.logout_urls
   supported_identity_providers         = ["COGNITO"]
+  explicit_auth_flows                  = var.explicit_auth_flows
 
   access_token_validity  = var.access_token_validity_hours
   id_token_validity      = var.id_token_validity_hours

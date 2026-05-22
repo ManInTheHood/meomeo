@@ -36,6 +36,7 @@ module "auth" {
   callback_urls               = var.cognito_callback_urls
   logout_urls                 = var.cognito_logout_urls
   oauth_scopes                = var.cognito_oauth_scopes
+  explicit_auth_flows         = var.cognito_explicit_auth_flows
   access_token_validity_hours = var.cognito_access_token_validity_hours
   id_token_validity_hours     = var.cognito_id_token_validity_hours
   refresh_token_validity_days = var.cognito_refresh_token_validity_days
