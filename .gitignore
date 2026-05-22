@@ -3,6 +3,8 @@
 *.tfstate
 *.tfstate.backup
 *.tfvars
+!backend/terraform/envs/dev/terraform.tfvars
+!backend/terraform/envs/prod/terraform.tfvars
 # OS
 .DS_Store
 Thumbs.db
